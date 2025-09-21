@@ -40,8 +40,10 @@ const SignInScreen = () => {
         {
           text: '확인',
           onPress: () => {
-            // TODO: 메인 화면으로 이동
-            console.log('로그인된 사용자:', foundUser);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'MainTab' }],
+            });
           },
         },
       ]);

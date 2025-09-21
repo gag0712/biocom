@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RootStackParamList } from './type';
 import SignInScreen from '../features/signUp/SignInScreen';
 import SignUpScreen from '../features/signUp/SignUpScreen';
+import MainTabNavigator from './MainTabNavigator';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -16,6 +17,11 @@ export const RootStack = () => {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MainTab"
+        component={MainTabNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
