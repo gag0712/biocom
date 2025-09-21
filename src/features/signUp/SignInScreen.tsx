@@ -15,6 +15,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/type';
 import { useMMKVObject } from 'react-native-mmkv';
 import { User } from '../../shared/type';
+import { useAuthStore } from '../../shared/store/authStore';
 
 const SignInScreen = () => {
   const navigation =
@@ -23,6 +24,7 @@ const SignInScreen = () => {
   const [password, setPassword] = useState('');
   const { top, bottom } = useSafeAreaInsets();
   const [users] = useMMKVObject<User[]>('users');
+  const { login } = useAuthStore();
 
   const handleSignIn = () => {
     // 사용자 목록에서 이메일과 비밀번호가 일치하는 사용자 찾기
@@ -32,12 +34,13 @@ const SignInScreen = () => {
     );
 
     if (foundUser) {
-      // 로그인 성공
+      // 로그인 성공 - zustand store에 사용자 정보 저장
+      login(foundUser);
       Alert.alert('로그인 성공', `안녕하세요, ${foundUser.name}님!`, [
         {
           text: '확인',
           onPress: () => {
-            // TODO: 메인 화면으로 이동하거나 로그인 상태 저장
+            // TODO: 메인 화면으로 이동
             console.log('로그인된 사용자:', foundUser);
           },
         },
