@@ -1,97 +1,226 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Biocom - React Native 전자상거래 앱
 
-# Getting Started
+Biocom은 React Native로 개발된 모바일 전자상거래 애플리케이션입니다. 사용자 인증, 상품 관리, 장바구니, 결제, 주문 관리 등의 핵심 전자상거래 기능을 제공합니다.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 🚀 주요 기능
 
-## Step 1: Start Metro
+### 🔐 사용자 인증
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- 회원가입 및 로그인
+- 사용자 프로필 관리
+- 프로필 정보 수정
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### 🛍️ 상품 관리
 
-```sh
-# Using npm
-npm start
+- 상품 목록 조회
+- 상품 상세 정보 보기
+- 카테고리별 상품 분류
+- 재고 관리
 
-# OR using Yarn
-yarn start
+### 🛒 장바구니
+
+- 상품 추가/제거
+- 수량 조절
+- 총 가격 계산
+- 장바구니 상태 관리
+
+### 💳 결제 시스템
+
+- 다양한 결제 수단 지원 (카드, 계좌이체, 카카오페이)
+- 배송 정보 입력
+- 결제 내역 저장
+- 결제 영수증 생성
+
+### 📦 주문 관리
+
+- 주문 내역 조회
+- 주문 상세 정보
+- 배송 상태 추적
+
+## 🛠️ 기술 스택
+
+### Frontend
+
+- **React Native 0.81.4** - 크로스 플랫폼 모바일 앱 개발
+- **TypeScript** - 타입 안전성 보장
+- **React Navigation** - 네비게이션 관리
+- **Zustand** - 상태 관리
+- **TanStack Query** - 서버 상태 관리 및 캐싱
+- **Axios** - HTTP 클라이언트
+
+### UI/UX
+
+- **Lucide React Native** - 아이콘 라이브러리
+- **React Native Reanimated** - 애니메이션
+- **React Native Gesture Handler** - 제스처 처리
+- **React Native Safe Area Context** - 안전 영역 관리
+- **React Native Keyboard Controller** - 키보드 관리
+
+### Storage
+
+- **React Native MMKV** - 고성능 로컬 스토리지
+
+### Development Tools
+
+- **ESLint** - 코드 품질 관리
+- **Prettier** - 코드 포맷팅
+- **Jest** - 테스팅 프레임워크
+- **Metro** - 번들러
+
+## 📱 앱 구조
+
+```
+src/
+├── components/          # 재사용 가능한 컴포넌트
+├── features/           # 기능별 화면 컴포넌트
+│   ├── cart/          # 장바구니 관련
+│   ├── checkout/      # 결제 관련
+│   ├── main/          # 메인 기능 (프로필 등)
+│   ├── order/         # 주문 관리
+│   ├── product/       # 상품 관리
+│   └── signUp/        # 회원가입/로그인
+├── navigation/         # 네비게이션 설정
+├── shared/            # 공통 모듈
+│   ├── api/           # API 관련
+│   ├── services/      # 서비스 레이어
+│   ├── store/         # 상태 관리
+│   ├── type/          # 타입 정의
+│   └── ui/            # UI 관련 (색상, 스타일)
 ```
 
-## Step 2: Build and run your app
+## 🚀 시작하기
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+### 필수 요구사항
 
-### Android
+- Node.js >= 20
+- Yarn 4.9.4
+- React Native CLI
+- Android Studio (Android 개발용)
+- Xcode (iOS 개발용)
 
-```sh
-# Using npm
-npm run android
+### 설치 및 실행
 
-# OR using Yarn
+1. **저장소 클론**
+
+```bash
+git clone <repository-url>
+cd Biocom
+```
+
+2. **의존성 설치**
+
+```bash
+yarn install
+```
+
+3. **iOS 의존성 설치 (iOS 개발시)**
+
+```bash
+cd ios && pod install && cd ..
+```
+
+4. **앱 실행**
+
+Android:
+
+```bash
 yarn android
 ```
 
-### iOS
+iOS:
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+```bash
 yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+5. **개발 서버 시작**
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+yarn start
+```
 
-## Step 3: Modify your app
+## 📋 사용 가능한 스크립트
 
-Now that you have successfully run the app, let's make changes!
+- `yarn start` - Metro 번들러 시작
+- `yarn android` - Android 앱 실행
+- `yarn ios` - iOS 앱 실행
+- `yarn test` - 테스트 실행
+- `yarn lint` - ESLint 검사
+- `yarn rewatch` - Watchman 재시작
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 🎨 디자인 시스템
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### 색상 팔레트
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- **Primary**: #1B1B1B (주요 텍스트)
+- **Accent**: #18b4ad (강조 색상)
+- **Secondary**: #545454 (보조 텍스트)
+- **Background**: #f8f9fa (배경색)
+- **Success**: #28a745 (성공 상태)
+- **Warning**: #ffc107 (경고 상태)
+- **Error**: #dc3545 (오류 상태)
 
-## Congratulations! :tada:
+## 🔧 API 설정
 
-You've successfully run and modified your React Native App. :partying_face:
+API 클라이언트는 `src/shared/api/axios.ts`에서 설정됩니다. 실제 서버 URL로 변경해주세요:
 
-### Now what?
+```typescript
+export const apiClient = axios.create({
+  baseURL: 'https://your-api-url.com',
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+```
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## 📦 주요 의존성
 
-# Troubleshooting
+### 핵심 라이브러리
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- `@react-navigation/native` - 네비게이션
+- `@tanstack/react-query` - 서버 상태 관리
+- `zustand` - 클라이언트 상태 관리
+- `axios` - HTTP 클라이언트
+- `react-native-mmkv` - 로컬 스토리지
 
-# Learn More
+### UI 라이브러리
 
-To learn more about React Native, take a look at the following resources:
+- `lucide-react-native` - 아이콘
+- `react-native-reanimated` - 애니메이션
+- `react-native-gesture-handler` - 제스처
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## 🧪 테스팅
+
+```bash
+# 테스트 실행
+yarn test
+
+# 테스트 커버리지 확인
+yarn test --coverage
+```
+
+## 📱 지원 플랫폼
+
+- **Android**: API 21+ (Android 5.0+)
+- **iOS**: iOS 11.0+
+
+## 🤝 기여하기
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 `LICENSE` 파일을 참조하세요.
+
+## 📞 문의
+
+프로젝트에 대한 문의사항이 있으시면 이슈를 생성해주세요.
+
+---
+
+**Biocom** - 현대적이고 사용자 친화적인 전자상거래 경험을 제공합니다.
