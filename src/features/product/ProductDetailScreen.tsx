@@ -7,14 +7,24 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Alert,
 } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/type';
 import { COLORS } from '../../shared/ui/color';
 import { ShoppingBag, CreditCard } from 'lucide-react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useProduct } from '../../shared/api/product/hook';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useCartStore } from '../../shared/store/cartStore';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -22,11 +32,17 @@ type ProductDetailRouteProp = RouteProp<RootStackParamList, 'ProductDetail'>;
 
 const ProductDetailScreen = () => {
   const route = useRoute<ProductDetailRouteProp>();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { productId } = route.params;
 
   const { data: product, isLoading, isError } = useProduct(productId);
-
+  const { addToCart } = useCartStore();
   const { top, bottom } = useSafeAreaInsets();
+
+  const scale = useSharedValue(1);
+  const buttonWidth = useSharedValue(56);
+  const buttonTextOpacity = useSharedValue(0);
 
   // 샘플 이미지 배열 (실제로는 product.images 배열을 사용)
   const images = product
@@ -41,6 +57,71 @@ const ProductDetailScreen = () => {
   const formatPrice = (price: number) => {
     return price.toLocaleString('ko-KR') + '원';
   };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+
+    // 장바구니에 추가
+    addToCart(product);
+
+    // 버튼 애니메이션 시작
+    scale.value = withSequence(
+      withSpring(1.3, { damping: 8, stiffness: 100 }),
+      withSpring(1, { damping: 8, stiffness: 100 }),
+    );
+
+    // 버튼 너비 애니메이션 (왼쪽으로 늘어나기)
+    buttonWidth.value = withSequence(
+      withTiming(140, { duration: 300 }), // 56 -> 140으로 늘어남 (텍스트 공간 확보)
+      withTiming(140, { duration: 1000 }), // 1초간 유지
+      withTiming(56, { duration: 300 }), // 다시 원래 크기로
+    );
+
+    // 텍스트 페이드 인/아웃
+    buttonTextOpacity.value = withSequence(
+      withTiming(0, { duration: 300 }), // 처음에는 투명
+      withTiming(1, { duration: 300 }), // 페이드 인
+      withTiming(1, { duration: 1000 }), // 1초간 유지
+      withTiming(0, { duration: 300 }), // 페이드 아웃
+    );
+
+    // 2초 후 모달 표시 (애니메이션 완료 후)
+    setTimeout(() => {
+      Alert.alert('장바구니에 추가되었습니다', '장바구니로 이동하시겠습니까?', [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: '확인',
+          onPress: () => {
+            navigation.navigate('Cart');
+          },
+        },
+      ]);
+    }, 2000);
+  };
+
+  const animatedButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }],
+      width: buttonWidth.value,
+      paddingHorizontal: buttonWidth.value > 56 ? 16 : 0,
+    };
+  });
+
+  const animatedButtonInnerStyle = useAnimatedStyle(() => {
+    return {
+      flexDirection: 'row',
+      gap: buttonWidth.value > 56 ? 8 : 0,
+    };
+  });
+
+  const animatedButtonTextStyle = useAnimatedStyle(() => {
+    return {
+      opacity: buttonTextOpacity.value,
+    };
+  });
 
   if (isLoading) {
     return (
@@ -143,9 +224,21 @@ const ProductDetailScreen = () => {
       </View>
 
       {/* 플로팅 장바구니 버튼 */}
-      <TouchableOpacity style={styles.cartFloatingButton}>
-        <ShoppingBag size={24} color={COLORS.white} />
-      </TouchableOpacity>
+      <Animated.View style={[styles.cartFloatingButton, animatedButtonStyle]}>
+        <Animated.View
+          style={[styles.cartButtonInner, animatedButtonInnerStyle]}
+        >
+          <TouchableOpacity
+            style={styles.cartButtonTouchable}
+            onPress={handleAddToCart}
+          >
+            <ShoppingBag size={24} color={COLORS.white} />
+            <Animated.Text style={[styles.buttonText, animatedButtonTextStyle]}>
+              추가 완료
+            </Animated.Text>
+          </TouchableOpacity>
+        </Animated.View>
+      </Animated.View>
     </View>
   );
 };
@@ -290,8 +383,6 @@ const styles = StyleSheet.create({
     height: 56,
     backgroundColor: COLORS.black,
     borderRadius: 28,
-    justifyContent: 'center',
-    alignItems: 'center',
     shadowColor: COLORS.black,
     shadowOffset: {
       width: 0,
@@ -300,6 +391,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    minWidth: 56, // 최소 너비 보장
+  },
+  cartButtonInner: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 0,
+    flexDirection: 'row',
+  },
+  cartButtonTouchable: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontSize: 14,
+    fontWeight: '600',
   },
 });
 

@@ -3,6 +3,7 @@ export type RootStackParamList = {
   SignUpScreen: undefined;
   MainTab: undefined;
   ProductDetail: { productId: string };
+  Cart: undefined;
 };
 
 export type MainTabParamList = {
