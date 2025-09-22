@@ -13,5 +13,6 @@ export type RootStackParamList = {
 
 export type MainTabParamList = {
   Products: undefined;
+  OrderHistory: undefined;
   Profile: undefined;
 };

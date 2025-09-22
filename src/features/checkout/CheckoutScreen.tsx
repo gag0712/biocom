@@ -20,7 +20,6 @@ import { useCartStore } from '../../shared/store/cartStore';
 import { useAuthStore } from '../../shared/store/authStore';
 import { usePayment } from '../../shared/api/payment/hook';
 import { PaymentRequest } from '../../shared/type/payment';
-import { savePaymentHistory } from '../../shared/services/paymentStorage';
 
 const CheckoutScreen = () => {
   const navigation =
@@ -28,7 +27,7 @@ const CheckoutScreen = () => {
   const { top, bottom } = useSafeAreaInsets();
   const { items, getTotalPrice, clearCart } = useCartStore();
   const { user } = useAuthStore();
-  const paymentMutation = usePayment();
+  const paymentMutation = usePayment(user?.email);
 
   // ScrollView와 입력 필드 refs
   const scrollViewRef = useRef<ScrollView>(null);
@@ -175,11 +174,6 @@ const CheckoutScreen = () => {
     paymentMutation.mutate(paymentData, {
       onSuccess: response => {
         if (response.success) {
-          // 결제 내역을 MMKV에 저장
-          if (user?.email) {
-            savePaymentHistory(user.email, response.receipt);
-          }
-
           Alert.alert(
             '결제 완료',
             `주문번호: ${response.receipt.orderNumber}\n\n주문이 성공적으로 완료되었습니다.\n감사합니다!`,

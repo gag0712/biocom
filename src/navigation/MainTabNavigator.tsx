@@ -3,9 +3,23 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../shared/ui/color';
 import ProfileScreen from '../features/main/ProfileScreen';
 import ProductListScreen from '../features/product/ProductListScreen';
-import { User, ShoppingBag } from 'lucide-react-native';
+import OrderHistoryScreen from '../features/order/OrderHistoryScreen';
+import { User, ShoppingBag, History } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
+
+// 아이콘 컴포넌트들을 미리 정의
+const ProductsIcon = ({ color, size }: { color: string; size: number }) => (
+  <ShoppingBag size={size} color={color} />
+);
+
+const OrderHistoryIcon = ({ color, size }: { color: string; size: number }) => (
+  <History size={size} color={color} />
+);
+
+const ProfileIcon = ({ color, size }: { color: string; size: number }) => (
+  <User size={size} color={color} />
+);
 
 const MainTabNavigator = () => {
   return (
@@ -37,9 +51,15 @@ const MainTabNavigator = () => {
         component={ProductListScreen}
         options={{
           title: '상품',
-          tabBarIcon: ({ color, size }) => (
-            <ShoppingBag size={size} color={color} />
-          ),
+          tabBarIcon: ProductsIcon,
+        }}
+      />
+      <Tab.Screen
+        name="OrderHistory"
+        component={OrderHistoryScreen}
+        options={{
+          title: '주문내역',
+          tabBarIcon: OrderHistoryIcon,
         }}
       />
       <Tab.Screen
@@ -47,7 +67,7 @@ const MainTabNavigator = () => {
         component={ProfileScreen}
         options={{
           title: '마이페이지',
-          tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
+          tabBarIcon: ProfileIcon,
         }}
       />
     </Tab.Navigator>

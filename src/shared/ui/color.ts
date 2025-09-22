@@ -5,4 +5,8 @@ export const COLORS = {
   black: '#000000',
   white: '#ffffff',
   lightGray: '#f5f5f5',
+  background: '#f8f9fa',
+  success: '#28a745',
+  warning: '#ffc107',
+  error: '#dc3545',
 };
