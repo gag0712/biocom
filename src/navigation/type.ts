@@ -8,6 +8,7 @@ export type RootStackParamList = {
     items?: Array<{ product: any; quantity: number }>;
     totalPrice?: number;
   };
+  EditProfile: undefined;
 };
 
 export type MainTabParamList = {

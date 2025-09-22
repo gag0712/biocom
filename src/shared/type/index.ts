@@ -5,6 +5,11 @@ export type User = {
   mobile: string;
 };
 
+export type UserUpdateData = {
+  name: string;
+  mobile: string;
+};
+
 export type Product = {
   id: string;
   name: string;

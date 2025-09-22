@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/type';
 
-const ProfileScreen: React.FC = () => {
+const ProfileScreen = () => {
   const { user, logout } = useAuthStore();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -45,6 +45,13 @@ const ProfileScreen: React.FC = () => {
         <Text style={styles.label}>휴대폰 번호</Text>
         <Text style={styles.value}>{user?.mobile}</Text>
       </View>
+
+      <TouchableOpacity
+        style={styles.editButton}
+        onPress={() => navigation.navigate('EditProfile')}
+      >
+        <Text style={styles.editButtonText}>회원 정보 수정</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutButtonText}>로그아웃</Text>
@@ -91,6 +98,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.secondary,
     marginBottom: 8,
+  },
+  editButton: {
+    backgroundColor: COLORS.primary,
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  editButtonText: {
+    color: COLORS.white,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   logoutButton: {
     backgroundColor: '#FF6B6B',

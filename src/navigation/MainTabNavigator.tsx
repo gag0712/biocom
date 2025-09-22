@@ -46,7 +46,7 @@ const MainTabNavigator = () => {
         name="Profile"
         component={ProfileScreen}
         options={{
-          title: '프로필',
+          title: '마이페이지',
           tabBarIcon: ({ color, size }) => <User size={size} color={color} />,
         }}
       />

@@ -6,6 +6,7 @@ import MainTabNavigator from './MainTabNavigator';
 import ProductDetailScreen from '../features/product/ProductDetailScreen';
 import CartScreen from '../features/cart/CartScreen';
 import CheckoutScreen from '../features/checkout/CheckoutScreen';
+import EditProfileScreen from '../features/main/EditProfileScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,6 +45,13 @@ export const RootStack = () => {
       <Stack.Screen
         name="Checkout"
         component={CheckoutScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
         options={{
           headerShown: false,
         }}
