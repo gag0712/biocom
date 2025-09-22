@@ -3,6 +3,8 @@ import { RootStack } from './src/navigation/RootStackNavigator';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
 
 // QueryClient 인스턴스 생성
 const queryClient = new QueryClient({
@@ -17,14 +19,22 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        <KeyboardProvider>
-          <NavigationContainer>
-            <RootStack />
-          </NavigationContainer>
-        </KeyboardProvider>
-      </SafeAreaProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <KeyboardProvider>
+            <NavigationContainer>
+              <RootStack />
+            </NavigationContainer>
+          </KeyboardProvider>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

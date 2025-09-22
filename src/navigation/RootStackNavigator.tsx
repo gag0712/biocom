@@ -3,6 +3,7 @@ import { RootStackParamList } from './type';
 import SignInScreen from '../features/signUp/SignInScreen';
 import SignUpScreen from '../features/signUp/SignUpScreen';
 import MainTabNavigator from './MainTabNavigator';
+import ProductDetailScreen from '../features/product/ProductDetailScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -23,6 +24,13 @@ export const RootStack = () => {
         name="MainTab"
         component={MainTabNavigator}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProductDetail"
+        component={ProductDetailScreen}
+        options={{
+          headerShown: false,
+        }}
       />
     </Stack.Navigator>
   );

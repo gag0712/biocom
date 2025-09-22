@@ -13,8 +13,14 @@ import { COLORS } from '../../shared/ui/color';
 import { Product } from '../../shared/type';
 import { ShoppingBag } from 'lucide-react-native';
 import { useProducts } from '../../shared/api/product/hook';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/type';
 
 const ProductListScreen = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   // 커스텀 훅을 사용한 상품 데이터 조회
   const {
     data: products = [],
@@ -58,8 +64,15 @@ const ProductListScreen = () => {
     );
   }
 
+  const handleProductPress = (productId: string) => {
+    navigation.navigate('ProductDetail', { productId });
+  };
+
   const renderProductItem = ({ item }: { item: Product }) => (
-    <TouchableOpacity style={styles.productCard}>
+    <TouchableOpacity
+      style={styles.productCard}
+      onPress={() => handleProductPress(item.id)}
+    >
       <Image
         source={{ uri: item.image }}
         resizeMode="cover"
