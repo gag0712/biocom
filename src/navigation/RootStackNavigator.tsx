@@ -7,6 +7,7 @@ import ProductDetailScreen from '../features/product/ProductDetailScreen';
 import CartScreen from '../features/cart/CartScreen';
 import CheckoutScreen from '../features/checkout/CheckoutScreen';
 import EditProfileScreen from '../features/main/EditProfileScreen';
+import OrderDetailScreen from '../features/order/OrderDetailScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,6 +53,13 @@ export const RootStack = () => {
       <Stack.Screen
         name="EditProfile"
         component={EditProfileScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="OrderDetail"
+        component={OrderDetailScreen}
         options={{
           headerShown: false,
         }}

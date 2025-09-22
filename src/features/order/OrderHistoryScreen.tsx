@@ -6,20 +6,23 @@ import {
   FlatList,
   TextInput,
   TouchableOpacity,
-  Alert,
   RefreshControl,
 } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { COLORS } from '../../shared/ui/color';
 import { StoredPaymentHistory } from '../../shared/type/payment';
 import { Search, Package, MapPin, CreditCard } from 'lucide-react-native';
 import { useOrderHistory } from '../../shared/api/order/hook';
 import { useAuthStore } from '../../shared/store/authStore';
+import { RootStackParamList } from '../../navigation/type';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const OrderHistoryScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { user } = useAuthStore();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     data: orderHistory,
     isLoading,
@@ -90,13 +93,7 @@ const OrderHistoryScreen = () => {
       <TouchableOpacity
         style={styles.orderCard}
         onPress={() => {
-          Alert.alert(
-            '주문 상세',
-            `주문번호: ${receipt.orderNumber}\n주문일: ${formatDate(
-              receipt.orderDate,
-            )}\n총 금액: ${receipt.totalAmount.toLocaleString()}원`,
-            [{ text: '확인' }],
-          );
+          navigation.navigate('OrderDetail', { order: item });
         }}
       >
         <View style={styles.orderHeader}>

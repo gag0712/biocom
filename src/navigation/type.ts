@@ -1,3 +1,6 @@
+import { StoredPaymentHistory } from '../shared/type/payment';
+import { Product } from '../shared/type';
+
 export type RootStackParamList = {
   SignInScreen: undefined;
   SignUpScreen: undefined;
@@ -5,10 +8,11 @@ export type RootStackParamList = {
   ProductDetail: { productId: string };
   Cart: undefined;
   Checkout: {
-    items?: Array<{ product: any; quantity: number }>;
+    items?: Array<{ product: Product; quantity: number }>;
     totalPrice?: number;
   };
   EditProfile: undefined;
+  OrderDetail: { order: StoredPaymentHistory };
 };
 
 export type MainTabParamList = {
