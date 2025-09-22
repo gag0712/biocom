@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/type';
 import { COLORS } from '../../shared/ui/color';
-import { ShoppingBag, CreditCard } from 'lucide-react-native';
+import { ShoppingBag, CreditCard, Minus, Plus } from 'lucide-react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import { useProduct } from '../../shared/api/product/hook';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,6 +40,8 @@ const ProductDetailScreen = () => {
   const { addToCart } = useCartStore();
   const { top, bottom } = useSafeAreaInsets();
 
+  const [quantity, setQuantity] = useState(1);
+
   const scale = useSharedValue(1);
   const buttonWidth = useSharedValue(56);
   const buttonTextOpacity = useSharedValue(0);
@@ -58,11 +60,20 @@ const ProductDetailScreen = () => {
     return price.toLocaleString('ko-KR') + '원';
   };
 
+  const handleQuantityChange = (change: number) => {
+    const newQuantity = quantity + change;
+    if (newQuantity >= 1 && newQuantity <= (product?.stock || 1)) {
+      setQuantity(newQuantity);
+    }
+  };
+
   const handleAddToCart = () => {
     if (!product) return;
 
-    // 장바구니에 추가
-    addToCart(product);
+    // 선택한 수량만큼 장바구니에 추가
+    for (let i = 0; i < quantity; i++) {
+      addToCart(product);
+    }
 
     // 버튼 애니메이션 시작
     scale.value = withSequence(
@@ -87,18 +98,22 @@ const ProductDetailScreen = () => {
 
     // 2초 후 모달 표시 (애니메이션 완료 후)
     setTimeout(() => {
-      Alert.alert('장바구니에 추가되었습니다', '장바구니로 이동하시겠습니까?', [
-        {
-          text: '취소',
-          style: 'cancel',
-        },
-        {
-          text: '확인',
-          onPress: () => {
-            navigation.navigate('Cart');
+      Alert.alert(
+        '장바구니에 추가되었습니다',
+        `${quantity}개의 상품이 장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?`,
+        [
+          {
+            text: '취소',
+            style: 'cancel',
           },
-        },
-      ]);
+          {
+            text: '확인',
+            onPress: () => {
+              navigation.navigate('Cart');
+            },
+          },
+        ],
+      );
     }, 2000);
   };
 
@@ -194,6 +209,48 @@ const ProductDetailScreen = () => {
             <Text style={styles.sectionTitle}>재고 현황</Text>
             <Text style={styles.stock}>
               {product.stock > 0 ? `${product.stock}개 남음` : '품절'}
+            </Text>
+          </View>
+
+          <View style={styles.infoSection}>
+            <Text style={styles.sectionTitle}>수량 선택</Text>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.quantityButton,
+                  quantity <= 1 && styles.quantityButtonDisabled,
+                ]}
+                onPress={() => handleQuantityChange(-1)}
+                disabled={quantity <= 1}
+              >
+                <Minus
+                  size={16}
+                  color={quantity <= 1 ? COLORS.secondary : COLORS.primary}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.quantityText}>{quantity}</Text>
+
+              <TouchableOpacity
+                style={[
+                  styles.quantityButton,
+                  quantity >= product.stock && styles.quantityButtonDisabled,
+                ]}
+                onPress={() => handleQuantityChange(1)}
+                disabled={quantity >= product.stock}
+              >
+                <Plus
+                  size={16}
+                  color={
+                    quantity >= product.stock
+                      ? COLORS.secondary
+                      : COLORS.primary
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.quantitySubtext}>
+              총 가격: {formatPrice(product.price * quantity)}
             </Text>
           </View>
 
@@ -346,6 +403,38 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: COLORS.secondary,
     marginBottom: 4,
+  },
+  quantityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+    marginBottom: 8,
+  },
+  quantityButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  quantityButtonDisabled: {
+    backgroundColor: '#F9F9F9',
+    borderColor: '#F0F0F0',
+  },
+  quantityText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: COLORS.primary,
+    minWidth: 30,
+    textAlign: 'center',
+  },
+  quantitySubtext: {
+    fontSize: 16,
+    color: COLORS.accent,
+    fontWeight: '600',
   },
   paymentButtonContainer: {
     position: 'absolute',
