@@ -25,6 +25,7 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+import ReviewSection from '../../components/ReviewSection';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -270,6 +271,9 @@ const ProductDetailScreen = () => {
             <Text style={styles.feature}>• 엄선된 고품질 상품</Text>
           </View>
         </View>
+
+        {/* 리뷰 섹션 */}
+        <ReviewSection productId={productId} />
       </ScrollView>
 
       {/* 결제하기 버튼 */}

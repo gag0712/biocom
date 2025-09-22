@@ -19,3 +19,29 @@ export type Product = {
   category: string;
   stock: number;
 };
+
+export type Review = {
+  id: string;
+  productId: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  images?: string[];
+  helpful: number;
+  verified: boolean;
+};
+
+export type ReviewSummary = {
+  averageRating: number;
+  totalReviews: number;
+  ratingDistribution: {
+    5: number;
+    4: number;
+    3: number;
+    2: number;
+    1: number;
+  };
+};
