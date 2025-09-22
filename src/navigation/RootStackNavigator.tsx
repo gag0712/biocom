@@ -5,6 +5,7 @@ import SignUpScreen from '../features/signUp/SignUpScreen';
 import MainTabNavigator from './MainTabNavigator';
 import ProductDetailScreen from '../features/product/ProductDetailScreen';
 import CartScreen from '../features/cart/CartScreen';
+import CheckoutScreen from '../features/checkout/CheckoutScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,6 +37,13 @@ export const RootStack = () => {
       <Stack.Screen
         name="Cart"
         component={CartScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Checkout"
+        component={CheckoutScreen}
         options={{
           headerShown: false,
         }}

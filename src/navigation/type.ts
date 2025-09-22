@@ -4,6 +4,10 @@ export type RootStackParamList = {
   MainTab: undefined;
   ProductDetail: { productId: string };
   Cart: undefined;
+  Checkout: {
+    items?: Array<{ product: any; quantity: number }>;
+    totalPrice?: number;
+  };
 };
 
 export type MainTabParamList = {

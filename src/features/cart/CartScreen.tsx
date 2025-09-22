@@ -19,10 +19,13 @@ import {
 } from 'lucide-react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/type';
 
 const CartScreen = () => {
   const { top, bottom } = useSafeAreaInsets();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {
     items,
     updateQuantity,
@@ -72,7 +75,7 @@ const CartScreen = () => {
   };
 
   const handleCheckout = () => {
-    Alert.alert('결제', '결제 기능은 준비 중입니다.');
+    navigation.navigate('Checkout', {});
   };
 
   const renderCartItem = ({ item }: { item: any }) => (

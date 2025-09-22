@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Product } from '../../type';
 
 // 샘플 상품 데이터
@@ -58,15 +57,6 @@ const sampleProducts: Product[] = [
     stock: 20,
   },
 ];
-
-// API 클라이언트 설정
-const apiClient = axios.create({
-  baseURL: 'https://api.example.com', // 실제 API URL로 변경
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
 
 // 상품 목록 조회 API (실제로는 서버에서 가져오지만, 현재는 샘플 데이터 반환)
 export const fetchProducts = async (): Promise<Product[]> => {

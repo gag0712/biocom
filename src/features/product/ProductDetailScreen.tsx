@@ -274,7 +274,16 @@ const ProductDetailScreen = () => {
 
       {/* 결제하기 버튼 */}
       <View style={styles.paymentButtonContainer}>
-        <TouchableOpacity style={styles.paymentButton}>
+        <TouchableOpacity
+          style={styles.paymentButton}
+          onPress={() => {
+            // 선택한 수량만큼 임시로 장바구니에 추가
+            for (let i = 0; i < quantity; i++) {
+              addToCart(product);
+            }
+            navigation.navigate('Checkout', {});
+          }}
+        >
           <CreditCard size={20} color={COLORS.white} />
           <Text style={styles.paymentButtonText}>결제하기</Text>
         </TouchableOpacity>
