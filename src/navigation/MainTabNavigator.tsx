@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../shared/ui/color';
-import HomeScreen from '../features/main/HomeScreen';
 import ProfileScreen from '../features/main/ProfileScreen';
-import { Home, User } from 'lucide-react-native';
+import ProductListScreen from '../features/product/ProductListScreen';
+import { User, ShoppingBag } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,11 +33,13 @@ const MainTabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Products"
+        component={ProductListScreen}
         options={{
-          title: '홈',
-          tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
+          title: '상품',
+          tabBarIcon: ({ color, size }) => (
+            <ShoppingBag size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
