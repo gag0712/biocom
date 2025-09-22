@@ -5,7 +5,8 @@ import { COLORS } from '../shared/ui/color';
 import ProfileScreen from '../features/main/ProfileScreen';
 import ProductListScreen from '../features/product/ProductListScreen';
 import OrderHistoryScreen from '../features/order/OrderHistoryScreen';
-import { User, ShoppingBag, History } from 'lucide-react-native';
+import ChallengeScreen from '../features/challenge/ChallengeScreen';
+import { User, ShoppingBag, History, Target } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +17,10 @@ const ProductsIcon = ({ color, size }: { color: string; size: number }) => (
 
 const OrderHistoryIcon = ({ color, size }: { color: string; size: number }) => (
   <History size={size} color={color} />
+);
+
+const ChallengeIcon = ({ color, size }: { color: string; size: number }) => (
+  <Target size={size} color={color} />
 );
 
 const ProfileIcon = ({ color, size }: { color: string; size: number }) => (
@@ -55,6 +60,14 @@ const MainTabNavigator = () => {
         options={{
           title: '상품',
           tabBarIcon: ProductsIcon,
+        }}
+      />
+      <Tab.Screen
+        name="Challenge"
+        component={ChallengeScreen}
+        options={{
+          title: '챌린지',
+          tabBarIcon: ChallengeIcon,
         }}
       />
       <Tab.Screen

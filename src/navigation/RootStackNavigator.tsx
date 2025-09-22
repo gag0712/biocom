@@ -8,6 +8,7 @@ import CartScreen from '../features/cart/CartScreen';
 import CheckoutScreen from '../features/checkout/CheckoutScreen';
 import EditProfileScreen from '../features/main/EditProfileScreen';
 import OrderDetailScreen from '../features/order/OrderDetailScreen';
+import ChallengeResultScreen from '../features/challenge/ChallengeResultScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -60,6 +61,13 @@ export const RootStack = () => {
       <Stack.Screen
         name="OrderDetail"
         component={OrderDetailScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ChallengeResult"
+        component={ChallengeResultScreen}
         options={{
           headerShown: false,
         }}

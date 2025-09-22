@@ -1,5 +1,6 @@
 import { StoredPaymentHistory } from '../shared/type/payment';
 import { Product } from '../shared/type';
+import { ChallengeResult } from '../shared/type/challenge';
 
 export type RootStackParamList = {
   SignInScreen: undefined;
@@ -13,10 +14,12 @@ export type RootStackParamList = {
   };
   EditProfile: undefined;
   OrderDetail: { order: StoredPaymentHistory };
+  ChallengeResult: { result: ChallengeResult };
 };
 
 export type MainTabParamList = {
   Products: undefined;
   OrderHistory: undefined;
+  Challenge: undefined;
   Profile: undefined;
 };
