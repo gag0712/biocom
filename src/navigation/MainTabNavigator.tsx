@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { COLORS } from '../shared/ui/color';
 import ProfileScreen from '../features/main/ProfileScreen';
 import ProductListScreen from '../features/product/ProductListScreen';
@@ -22,6 +23,8 @@ const ProfileIcon = ({ color, size }: { color: string; size: number }) => (
 );
 
 const MainTabNavigator = () => {
+  const { bottom } = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -31,9 +34,9 @@ const MainTabNavigator = () => {
           backgroundColor: COLORS.white,
           borderTopColor: '#E0E0E0',
           borderTopWidth: 1,
-          paddingBottom: 5,
+          paddingBottom: bottom + 5,
           paddingTop: 5,
-          height: 60,
+          height: 60 + bottom,
         },
         headerStyle: {
           backgroundColor: COLORS.white,
